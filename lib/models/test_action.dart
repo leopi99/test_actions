@@ -49,6 +49,7 @@ class TestAction {
 
   FutureOr<dynamic> performAction(
       int actionIndex, Function setActionAsDone) async {
+    print('Performing ${actionType.toString().split('.')[1]} #$actionIndex');
     try {
       switch (actionType) {
         case TestActionType.PumpAndSettle:
@@ -70,28 +71,24 @@ class TestAction {
         case TestActionType.Press:
           await tester!.tap(finder!);
           break;
+        case TestActionType.AwaitFuture:
+          await Future.delayed(awaitDuration!);
+          break;
         default:
           throw Exception('This action has not been yet implemented');
       }
     } catch (e) {
-      String firstMessage =
-          '* Error accoured while performing ${actionType.toString().split('.')[1]} action #$actionIndex';
-      String secondMessage =
-          '* ErrorType: ${e.runtimeType}\t Message: ${e.toString()}';
-      String divider = '';
-      int higerLength = firstMessage.length > secondMessage.length
-          ? firstMessage.length
-          : secondMessage.length;
-      for (int i = 0; i < higerLength + 1; i++) {
-        divider += '=';
-      }
-      print(divider);
-      print(firstMessage);
-      print(secondMessage);
-      print(divider);
+      _printError(e, actionIndex, surplusMessage: 'While running the action');
       return;
     }
-    if (executePumpAndSettle) await tester!.pumpAndSettle();
+    try {
+      if (executePumpAndSettle) await tester!.pumpAndSettle();
+    } catch (e) {
+      _printError(e, actionIndex,
+          surplusMessage: 'While running the tester.pumpAndSettle()');
+    }
+    print(
+        'Action ${actionType.toString().split('.')[1]} (#$actionIndex) performed');
     setActionAsDone(actionIndex);
   }
 
@@ -111,4 +108,23 @@ class TestAction {
         finder: finder ?? this.finder,
         customAction: customAction ?? this.customAction,
       );
+
+  void _printError(dynamic e, int actionIndex, {String surplusMessage = ''}) {
+    String firstMessage =
+        '* Error accoured while performing ${actionType.toString().split('.')[1]} action #$actionIndex';
+    String secondMessage =
+        '* ErrorType: ${e.runtimeType}\t Message: ${e.toString()}';
+    String divider = '';
+    int higerLength = firstMessage.length > secondMessage.length
+        ? firstMessage.length
+        : secondMessage.length;
+    for (int i = 0; i < higerLength + 1; i++) {
+      divider += '=';
+    }
+    print(divider);
+    print(firstMessage);
+    print(secondMessage);
+    if (surplusMessage != '') print('* $surplusMessage');
+    print(divider);
+  }
 }

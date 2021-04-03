@@ -8,9 +8,11 @@ class WidgetTesterMock extends Mock implements WidgetTester {}
 void main() async {
   WidgetTesterMock mockTester = WidgetTesterMock();
   late TestActions actions;
+
   setUp(() {
     actions = TestActions();
     actions.tester = mockTester;
+    actions.resetActions();
   });
 
   group('TestAction test', () {
