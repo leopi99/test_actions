@@ -61,12 +61,14 @@ class TestAction {
             await tester!.pump(awaitDuration);
             if (i == pumpTimes - 1) pumpDone = true;
           }
+          //Awaits all the pumps to be done
           while (!pumpDone) {
             await Future.delayed(awaitDuration ?? Duration(milliseconds: 100));
           }
           break;
         case TestActionType.CustomAction:
-          await customAction!();
+          //Executes the custom action
+          customAction!();
           break;
         case TestActionType.Press:
           await tester!.tap(finder!);
@@ -81,6 +83,7 @@ class TestAction {
       _printError(e, actionIndex, surplusMessage: 'While running the action');
       return;
     }
+    //Tries to run the pumpAndSettle if {executePumpAndSettle} is true
     try {
       if (executePumpAndSettle) await tester!.pumpAndSettle();
     } catch (e) {

@@ -25,7 +25,6 @@ void main() async {
     });
 
     test('perform all actions when list is empty', () async {
-      addSampleActions(actions);
       dynamic result = await actions.performAllActions();
       expect(result, isNull);
     });
