@@ -85,13 +85,16 @@ class TestAction {
     }
     //Tries to run the pumpAndSettle if {executePumpAndSettle} is true
     try {
-      if (executePumpAndSettle) await tester!.pumpAndSettle();
+      if (executePumpAndSettle) {
+        print('=> executing pumpAndSettle');
+        await tester!.pumpAndSettle();
+      }
     } catch (e) {
       _printError(e, actionIndex,
           surplusMessage: 'While running the tester.pumpAndSettle()');
     }
     print(
-        'Action ${actionType.toString().split('.')[1]} (#$actionIndex) performed');
+        'Action ${actionType.toString().split('.')[1]} #$actionIndex performed');
     setActionAsDone(actionIndex);
   }
 
@@ -102,6 +105,7 @@ class TestAction {
     Duration? awaitDuration,
     Finder? finder,
     Function? customAction,
+    bool? executePumpAndSettle,
   }) =>
       TestAction(
         actionType: actionType ?? this.actionType,
@@ -110,6 +114,7 @@ class TestAction {
         awaitDuration: awaitDuration ?? this.awaitDuration,
         finder: finder ?? this.finder,
         customAction: customAction ?? this.customAction,
+        executePumpAndSettle: executePumpAndSettle ?? this.executePumpAndSettle,
       );
 
   void _printError(dynamic e, int actionIndex, {String surplusMessage = ''}) {

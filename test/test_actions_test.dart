@@ -45,6 +45,13 @@ void main() async {
       await actions.performActionAt(1);
       expect(actions.isActionDone(1), true);
     });
+    test('run all the actions', () async {
+      addSampleActions(actions);
+      await actions.performAllActions();
+      for (int i = 0; i < actions.actions.length; i++) {
+        expect(actions.isActionDone(i), true);
+      }
+    });
   });
 }
 
