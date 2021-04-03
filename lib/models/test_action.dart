@@ -1,3 +1,5 @@
+import 'dart:async';
+
 import 'package:flutter_test/flutter_test.dart';
 import 'package:test_actions/models/test_action_type.dart';
 
@@ -45,7 +47,7 @@ class TestAction {
     this.executePumpAndSettle = true,
   });
 
-  Future<dynamic> performAction(
+  FutureOr<dynamic> performAction(
       int actionIndex, Function setActionAsDone) async {
     try {
       switch (actionType) {
@@ -61,6 +63,12 @@ class TestAction {
           while (!pumpDone) {
             await Future.delayed(awaitDuration ?? Duration(milliseconds: 100));
           }
+          break;
+        case TestActionType.CustomAction:
+          await customAction!();
+          break;
+        case TestActionType.Press:
+          await tester!.tap(finder!);
           break;
         default:
           throw Exception('This action has not been yet implemented');

@@ -9,8 +9,6 @@ environment:
   flutter: ">=2.0.0"
 
 dependencies:
-  integration_test:
-    sdk: flutter
   flutter:
     sdk: flutter
 

@@ -36,22 +36,26 @@ void main() async {
       actions.addMultipleActions([
         TestAction(
           actionType: TestActionType.AwaitFuture,
+          executePumpAndSettle: false,
           awaitDuration: Duration(seconds: 2),
         ),
         TestAction(
           actionType: TestActionType.CustomAction,
+          executePumpAndSettle: false,
           customAction: () {
             print('This is my test custom action');
           },
         ),
         TestAction(
           actionType: TestActionType.CustomAction,
+          executePumpAndSettle: false,
           customAction: () {
             print('This is my second test for a custom action');
           },
         ),
         TestAction(
           actionType: TestActionType.AwaitFuture,
+          executePumpAndSettle: false,
           awaitDuration: Duration(seconds: 2),
         ),
       ]);
