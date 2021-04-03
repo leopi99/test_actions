@@ -1,12 +1,5 @@
 import 'package:flutter_test/flutter_test.dart';
-
-enum TestActionType {
-  Pump,
-  PumpAndSettle,
-  Press,
-  AwaitFuture,
-  CustomAction,
-}
+import 'package:test_actions/models/test_action_type.dart';
 
 ///Test action, class that can be performed on a [WidgetTester].
 class TestAction {

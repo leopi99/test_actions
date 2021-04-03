@@ -1,4 +1,5 @@
 import 'package:flutter_test/flutter_test.dart';
+import 'package:test_actions/models/test_action_type.dart';
 import 'package:test_actions/test_actions.dart';
 import 'package:mockito/mockito.dart';
 
