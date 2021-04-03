@@ -1,7 +1,7 @@
 name: test_actions
 description: A new Flutter package project.
 version: 0.0.1
-author:
+author: Leonardo Pizio
 homepage:
 
 environment:
@@ -10,9 +10,6 @@ environment:
 
 dependencies:
   mockito: ^5.0.3
-
-  # integration_test:
-  #   sdk: flutter
   flutter:
     sdk: flutter
 
