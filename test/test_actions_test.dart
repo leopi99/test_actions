@@ -7,9 +7,11 @@ class WidgetTesterMock extends Mock implements WidgetTester {}
 
 void main() async {
   WidgetTesterMock mockTester = WidgetTesterMock();
-  TestActions actions = TestActions();
-
-  actions.tester = mockTester;
+  late TestActions actions;
+  setUp(() {
+    actions = TestActions();
+    actions.tester = mockTester;
+  });
 
   group('TestAction test', () {
     test('out of bound action perform', () async {
@@ -21,6 +23,7 @@ void main() async {
     });
 
     test('perform all actions when list is empty', () async {
+      addSampleActions(actions);
       dynamic result = await actions.performAllActions();
       expect(result, isNull);
     });
@@ -33,37 +36,51 @@ void main() async {
       expect(actions.tester, isNotNull);
     });
     test('adding more actions', () {
-      actions.addMultipleActions([
-        TestAction(
-          actionType: TestActionType.AwaitFuture,
-          executePumpAndSettle: false,
-          awaitDuration: Duration(seconds: 2),
-        ),
-        TestAction(
-          actionType: TestActionType.CustomAction,
-          executePumpAndSettle: false,
-          customAction: () {
-            print('This is my test custom action');
-          },
-        ),
-        TestAction(
-          actionType: TestActionType.CustomAction,
-          executePumpAndSettle: false,
-          customAction: () {
-            print('This is my second test for a custom action');
-          },
-        ),
-        TestAction(
-          actionType: TestActionType.AwaitFuture,
-          executePumpAndSettle: false,
-          awaitDuration: Duration(seconds: 2),
-        ),
-      ]);
+      addSampleActions(actions);
       expect(actions.actions.length, 4);
     });
     test('running a single custom action', () async {
+      addSampleActions(actions);
       await actions.performActionAt(1);
       expect(actions.isActionDone(1), true);
     });
   });
+}
+
+void addSampleActions(TestActions actions, {bool addOne = false}) {
+  if (addOne)
+    actions.addAction(TestAction(
+      actionType: TestActionType.CustomAction,
+      executePumpAndSettle: false,
+      customAction: () {
+        print('This is my test custom action');
+      },
+    ));
+  else
+    actions.addMultipleActions([
+      TestAction(
+        actionType: TestActionType.AwaitFuture,
+        executePumpAndSettle: false,
+        awaitDuration: Duration(seconds: 2),
+      ),
+      TestAction(
+        actionType: TestActionType.CustomAction,
+        executePumpAndSettle: false,
+        customAction: () {
+          print('This is my test custom action');
+        },
+      ),
+      TestAction(
+        actionType: TestActionType.CustomAction,
+        executePumpAndSettle: false,
+        customAction: () {
+          print('This is my second test for a custom action');
+        },
+      ),
+      TestAction(
+        actionType: TestActionType.AwaitFuture,
+        executePumpAndSettle: false,
+        awaitDuration: Duration(seconds: 2),
+      ),
+    ]);
 }
