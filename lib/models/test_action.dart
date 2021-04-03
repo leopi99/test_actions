@@ -20,28 +20,29 @@ class TestAction {
   final Duration? awaitDuration;
   final int pumpTimes;
   final Finder? finder;
-  final WidgetTester tester;
+  final Function? customAction;
+  late WidgetTester? tester;
 
   TestAction({
     required this.actionType,
     this.awaitDuration,
     this.pumpTimes = 30,
     this.finder,
-    required this.tester,
+    this.tester,
+    this.customAction,
   });
 
-  Future<dynamic> performAction(int actionIndex) async {
-    final TestRestorationData restorationData =
-        await tester.getRestorationData();
+  Future<dynamic> performAction(
+      int actionIndex, Function setActionAsDone) async {
     try {
       switch (actionType) {
         case TestActionType.PumpAndSettle:
-          await tester.pumpAndSettle();
+          await tester!.pumpAndSettle();
           break;
         case TestActionType.Pump:
           bool pumpDone = false;
           for (int i = 0; i < pumpTimes; i++) {
-            await tester.pump(awaitDuration);
+            await tester!.pump(awaitDuration);
             if (i == pumpTimes - 1) pumpDone = true;
           }
           while (!pumpDone) {
@@ -49,15 +50,27 @@ class TestAction {
           }
           break;
         default:
+          throw Exception('This action has not been yet implemented');
       }
     } catch (e) {
-      print(
-          '* Error accoured while performing ${actionType.toString().split('.')[1]} action #$actionIndex');
-      print('* ErrorType: ${e.runtimeType}\t Message: ${e.toString()}');
-      print('* Restoring to the previous data: ${restorationData.toString()}');
-      tester.restoreFrom(restorationData);
+      String firstMessage =
+          '* Error accoured while performing ${actionType.toString().split('.')[1]} action #$actionIndex';
+      String secondMessage =
+          '* ErrorType: ${e.runtimeType}\t Message: ${e.toString()}';
+      String divider = '';
+      int higerLength = firstMessage.length > secondMessage.length
+          ? firstMessage.length
+          : secondMessage.length;
+      for (int i = 0; i < higerLength + 1; i++) {
+        divider += '=';
+      }
+      print(divider);
+      print(firstMessage);
+      print(secondMessage);
+      print(divider);
       return;
     }
+    setActionAsDone(actionIndex);
   }
 
   TestAction copyWith({
@@ -66,6 +79,7 @@ class TestAction {
     int? pumpTimes,
     Duration? awaitDuration,
     Finder? finder,
+    Function? customAction,
   }) =>
       TestAction(
         actionType: actionType ?? this.actionType,
@@ -73,5 +87,6 @@ class TestAction {
         pumpTimes: pumpTimes ?? this.pumpTimes,
         awaitDuration: awaitDuration ?? this.awaitDuration,
         finder: finder ?? this.finder,
+        customAction: customAction ?? this.customAction,
       );
 }

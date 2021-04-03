@@ -24,22 +24,26 @@ class TestActions {
 
   Future<dynamic> performAllActions() async {
     for (int i = 0; i < _actions.length; i++) {
-      await _actions[i].performAction(i);
-      do {
-        await Future.delayed(
-            _actions[i].awaitDuration ?? Duration(milliseconds: 50));
-      } while (!_doneActions[i]);
-      if (i == (_actions.length - 1) && _doneActions[i]) return true;
+      if (!_doneActions[i]) {
+        await performActionAt(i);
+        do {
+          await Future.delayed(
+              _actions[i].awaitDuration ?? Duration(milliseconds: 50));
+        } while (!_doneActions[i]);
+        if (i == (_actions.length - 1) && _doneActions[i]) return true;
+      }
     }
   }
 
   Future<dynamic> performActionAt(int index) async {
-    if (_actions.isNotEmpty && (_actions.length - 1) <= index) {
-      return await _actions[index].performAction(index);
+    if (_actions.isNotEmpty && (_actions.length - 1) >= index) {
+      return await _actions[index].performAction(index, _setActionAsDone);
     } else
       throw Exception(
           "The action list is empty or the selected index is higer than the actions stored.");
   }
+
+  void _setActionAsDone(int actionIndex) => _doneActions[actionIndex] = true;
 
   void addAction(TestAction action) {
     _actions.add(_tester != null ? action.copyWith(tester: _tester) : action);
@@ -57,4 +61,6 @@ class TestActions {
     _doneActions = [];
     if (resetTester) _tester = null;
   }
+
+  bool isActionDone(int actionIndex) => _doneActions[actionIndex];
 }
