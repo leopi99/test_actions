@@ -11,10 +11,29 @@ class TestAction {
   ///
   ///Throws an error if the [TestActionType] is AwaitFuture, but this is null.
   final Duration? awaitDuration;
+
+  ///Type [int]
+  ///
+  ///How many times the pump should be called
+  ///
+  ///The default value is 30
   final int pumpTimes;
+
+  ///The finder used to find the widget to be pressed
   final Finder? finder;
+
+  ///Custom function to be called
   final Function? customAction;
+
+  ///The [WidgetTester] to performs the actions on.
+  ///
+  ///Should never be null
   late WidgetTester? tester;
+
+  ///Decides if the pumpAndSettle should be run at the end of the action.
+  ///
+  ///The default value is true.
+  final bool executePumpAndSettle;
 
   TestAction({
     required this.actionType,
@@ -23,6 +42,7 @@ class TestAction {
     this.finder,
     this.tester,
     this.customAction,
+    this.executePumpAndSettle = true,
   });
 
   Future<dynamic> performAction(
@@ -63,6 +83,7 @@ class TestAction {
       print(divider);
       return;
     }
+    if (executePumpAndSettle) await tester!.pumpAndSettle();
     setActionAsDone(actionIndex);
   }
 
