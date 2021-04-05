@@ -5,7 +5,7 @@ This plugin can be used to facilitate the integration test on a Flutter app, hel
 ## Getting Started
 Add this line to the dev_dependencies in the pubspec.yaml file in your project.
 ```
-test_actions:
+test_actions: ^ 0.1.0
 ```
 
 ## Usage
