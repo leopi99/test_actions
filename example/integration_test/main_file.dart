@@ -28,6 +28,16 @@ void main() {
           expect(find.text('1'), findsOneWidget);
         },
       ),
+      TestAction(
+        actionType: TestActionType.Press,
+        finder: find.byType(FloatingActionButton),
+      ),
+      TestAction(
+        actionType: TestActionType.CustomAction,
+        customAction: () {
+          expect(find.text('2'), findsOneWidget);
+        },
+      ),
     ]);
     await actions.performAllActions();
   });
