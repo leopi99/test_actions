@@ -53,6 +53,7 @@ class TestAction {
     try {
       switch (actionType) {
         case TestActionType.PumpAndSettle:
+          //Executes the pumpAndSettle
           await tester!.pumpAndSettle();
           break;
         case TestActionType.Pump:
@@ -71,9 +72,11 @@ class TestAction {
           customAction!();
           break;
         case TestActionType.Press:
+          //Executes the tap action
           await tester!.tap(finder!);
           break;
         case TestActionType.AwaitFuture:
+          //Awaits for a certain Duration
           await Future.delayed(awaitDuration!);
           break;
         default:
