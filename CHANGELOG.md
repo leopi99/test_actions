@@ -1,3 +1,3 @@
-## [0.0.1] - TODO: Add release date.
+## [0.1.0] - 05/05/2021 (DD/MM/YYYY)
 
-* TODO: Describe initial release.
+* First release of the plugin.
