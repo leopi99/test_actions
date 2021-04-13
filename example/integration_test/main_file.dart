@@ -15,30 +15,30 @@ void main() {
 
   testWidgets("Button press test", (WidgetTester tester) async {
     await tester.pumpWidget(app.MyApp());
-    actions.tester = tester;
-    actions.addMultipleActions([
-      TestAction(actionType: TestActionType.PumpAndSettle),
+    actions.setTester(tester);
+    actions.addActionsAll([
+      TestAction(action: TestActionType.PumpAndSettle),
       TestAction(
-        actionType: TestActionType.Press,
+        action: TestActionType.Press,
         finder: find.byType(FloatingActionButton),
       ),
       TestAction(
-        actionType: TestActionType.CustomAction,
+        action: TestActionType.CustomAction,
         customAction: () {
           expect(find.text('1'), findsOneWidget);
         },
       ),
       TestAction(
-        actionType: TestActionType.Press,
+        action: TestActionType.Press,
         finder: find.byType(FloatingActionButton),
       ),
       TestAction(
-        actionType: TestActionType.CustomAction,
+        action: TestActionType.CustomAction,
         customAction: () {
           expect(find.text('2'), findsOneWidget);
         },
       ),
     ]);
-    await actions.performAllActions();
+    await actions.performActions();
   });
 }

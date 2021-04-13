@@ -5,7 +5,7 @@ This plugin can be used to facilitate the integration test on a Flutter app, hel
 ## Getting Started
 Add this line to the dev_dependencies in the pubspec.yaml file in your project.
 ```
-test_actions: ^ 0.1.0
+test_actions: ^0.2.0
 ```
 
 ## Usage
@@ -20,22 +20,24 @@ The first things to set up is the TestActions itself; this is the class that con
 Of course the tester should be assigned inside the testWidgets method.
 ```
 TestActions actions = TestActions();
-actions.tester = tester;
+actions.setTester(tester);
 ```
 Currently there are 5 actions that you can perform using this plugin:
 Action name | Effect | Constants
-------------| ------ | -----------
+----------- | ------ | ---------
 Pump | Executes the pump command on the WidgetTester for a number of times defined by the {pumpTimes} variable(default to 30). | If you set the awaitDuration it will be used as duration in the pump command.
 PumpAndSettle | Executes the pumpAndSettle command on the WidgetTester.
 Press | Executes the tap on the WidgetTester using a Finder. | This action needs the finder not to be null
-AwaitFuture | Awaits for a certain Duration. | This action needs the awaitDuration not to be null.
+FutureAwait | Awaits for a certain Duration. | This action needs the awaitDuration not to be null.
 CustomAction | Executes a custom function. | This action needs the customAction function not to be null.
+Drag | Executes a drag action | This action needs the dragOffset not to be null.
+EnterText | Enters a text into a textfield or a widget that accepts text as input | This function needs enterText not to be null.
 
 You can perform all the actions in order
 ```
-await actions.performAllActions();
+await actions.performActions();
 ```
-Or peforming only one action:
+Or perform only one action:
 ```
 await actions.performActionAt(0);
 ```
@@ -43,7 +45,7 @@ await actions.performActionAt(0);
 The TestActions doesn't need to be inside the TestActions class, you can create an action and perform by itself
 ```
 TestAction singleAction = TestAction(
-  actionType: TestActionType.CustomAction, 
+  action: TestActionType.CustomAction, 
   customAction: () {
     print('This is a custom action);
     expect(1 + 1, 2);
@@ -52,4 +54,4 @@ TestAction singleAction = TestAction(
 singleAction.performAction(0, () {});
 ```
 
-To perform, the single TestAction, needs two arguments, the index of the action and a function that will be called when the action is completed.
+To perform the single TestAction, it needs two arguments, the index of the action and a function that will be called when the action is completed.

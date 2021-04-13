@@ -1,66 +1,104 @@
+import 'dart:async';
+
 import 'package:flutter_test/flutter_test.dart';
 import 'package:test_actions/models/test_action.dart';
-import 'package:test_actions/test_actions.dart';
+
+///Class to perform action during the integration tests
 
 class TestActions {
+  late List<TestAction> _actions;
+  late List<bool> _doneActions;
   WidgetTester? _tester;
 
-  WidgetTester get tester => _tester!;
-  set tester(WidgetTester tester) => _tester = tester;
-
-  late List<TestAction> _actions;
   List<TestAction> get actions => _actions;
 
-  late List<bool> _doneActions;
+  ///If the [WidgetTester] is set will be returned, otherwise will get null
+  dynamic get tester => _tester;
 
-  TestActions({List<TestAction>? actions}) {
-    if (actions != null && actions.isEmpty) {
-      addMultipleActions(actions);
-    } else {
+  TestActions({List<TestAction>? actions, WidgetTester? tester}) {
+    if (actions != null && actions.length > 0)
+      actions.forEach((element) {
+        addAction(element);
+      });
+    else
       _actions = [];
-      _doneActions = [];
-    }
+    _doneActions = [];
+    if (tester != null) _tester = tester;
   }
 
-  Future<dynamic> performAllActions() async {
+  ///Sets the [WidgetTester] to the class, set this before adding the [List] of [TestAction].
+  ///
+  ///By adding this tester, you can avoid to add the tester to every [TestAction].
+  void setTester(WidgetTester tester) => _tester = tester;
+
+  ///Performs all actions in order.
+  ///
+  ///failsAt [Duration] tells the test to fail after this much time
+  ///
+  ///Defaults to 5 minutes
+  Future<void> performActions(
+      {Duration failsAt = const Duration(minutes: 5)}) async {
+    Timer.periodic(failsAt, (timer) {
+      throw Exception('Test not completed after 5 minutes');
+    });
     for (int i = 0; i < _actions.length; i++) {
-      if (!_doneActions[i]) {
-        await performActionAt(i);
-        do {
-          await Future.delayed(
-              _actions[i].awaitDuration ?? Duration(milliseconds: 50));
-        } while (!_doneActions[i]);
-        if (i == (_actions.length - 1) && _doneActions[i]) return true;
-      }
+      if (!_doneActions[i]) await performActionAt(i);
+    }
+    while (!_doneActions.every((element) => element)) {
+      await Future.delayed(Duration(milliseconds: 500));
+    }
+    return;
+  }
+
+  ///Performs a single action.
+  Future<void> performActionAt(int index) async {
+    if (index > _actions.length)
+      throw Exception(
+          'Out of bound exception, the selected index [$index] is greater then the list [${_actions.length}]');
+    if (!_doneActions[index]) {
+      await _actions[index]
+          .performAction(setAsDone: _setActionAsDone, actionIndex: index);
+      do {
+        await Future.delayed(Duration(milliseconds: 100));
+      } while (!_doneActions[index]);
     }
   }
 
-  Future<dynamic> performActionAt(int index) async {
-    if (_actions.isNotEmpty && (_actions.length - 1) >= index) {
-      return await _actions[index].performAction(index, _setActionAsDone);
-    } else
-      throw Exception(
-          "The action list is empty or the selected index is higer than the actions stored.");
-  }
-
-  void _setActionAsDone(int actionIndex) => _doneActions[actionIndex] = true;
-
+  ///Adds an action at the end of the others.
+  ///
+  /// If the [WidgetTester] has been set, will be used instead of the one in the [TestAction]
   void addAction(TestAction action) {
     _actions.add(_tester != null ? action.copyWith(tester: _tester) : action);
     _doneActions.add(false);
   }
 
-  void addMultipleActions(List<TestAction> actions) {
-    for (TestAction x in actions) {
-      addAction(x);
-    }
+  ///Adds a [List] of [TestAction]
+  void addActionsAll(List<TestAction> multipleActions) {
+    multipleActions.forEach((element) {
+      addAction(element);
+    });
+    print('* Added ${_actions.length} actions');
   }
 
-  void resetActions({bool resetTester = false}) {
+  ///Adds a [TestAction] at [int] index
+  void addActionAt(int index, TestAction action) {
+    _actions.insert(
+        index, _tester != null ? action.copyWith(tester: _tester) : action);
+    print('* Added a new action at index $index');
+  }
+
+  void _setActionAsDone(int index) => _doneActions[index] = true;
+
+  ///Resets the actions and the [WidgetTester]
+  void resetActions() {
+    print('** Actions reset **');
     _actions = [];
     _doneActions = [];
-    if (resetTester) _tester = null;
   }
 
-  bool isActionDone(int actionIndex) => _doneActions[actionIndex];
+  ///Returns true if an action is done
+  bool isActionDone(int index) => _doneActions[index];
+
+  ///Returns true if all actions are done
+  bool areAllDone() => _doneActions.every((element) => element);
 }

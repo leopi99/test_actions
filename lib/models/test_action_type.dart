@@ -1,8 +1,10 @@
-
+///Actions that can be performed on the [WidgetTester]
 enum TestActionType {
-  Pump,
-  PumpAndSettle,
   Press,
-  AwaitFuture,
+  EnterText,
+  PumpAndSettle,
+  FutureAwait,
   CustomAction,
+  Pump,
+  Drag,
 }
