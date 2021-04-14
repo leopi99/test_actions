@@ -42,7 +42,7 @@ Or perform only one action:
 await actions.performActionAt(0);
 ```
 
-The TestActions doesn't need to be inside the TestActions class, you can create an action and perform by itself
+The TestAction doesn't need to be inside the TestActions class, you can create an action and perform by itself
 ```
 TestAction singleAction = TestAction(
   action: TestActionType.CustomAction, 
