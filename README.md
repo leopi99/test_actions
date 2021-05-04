@@ -15,7 +15,7 @@ Then you just have to import the package with:
 ```
 import 'package:test_actions/test_actions.dart';
 ```
-Since the use of the integration_test plugin is deprecated(since Flutter 2), you should use the sdk version instead:
+Since Flutter 2 the integration_test plugin is integrated into the sdk:
 ```
 dev_dependencies:
   integration_test:
