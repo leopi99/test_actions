@@ -1,6 +1,6 @@
 # test_actions
 
-This plugin can be used to facilitate the integration test on a Flutter app, helps newbie to run integration tests.
+This plugin can be used to facilitate the integration test on a Flutter app, handles the tests at a "higer" level.
 
 ## Getting Started
 Add this line to the dev_dependencies in the pubspec.yaml file in your project.
@@ -15,7 +15,12 @@ Then you just have to import the package with:
 ```
 import 'package:test_actions/test_actions.dart';
 ```
-
+Since the use of the integration_test plugin is deprecated(since Flutter 2), you should use the sdk version instead:
+```
+dev_dependencies:
+  integration_test:
+    sdk: flutter
+```
 The first things to set up is the TestActions itself; this is the class that contains all the actions that you will execute, this class needs a WidgetTester if you don't want to set it for all the actions that you add.
 Of course the tester should be assigned inside the testWidgets method.
 ```
