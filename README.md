@@ -1,6 +1,6 @@
 # test_actions
 
-This plugin can be used to facilitate the integration test on a Flutter app, handles the tests at a "higer" level.
+This plugin can be used to facilitate the integration test on a Flutter app, handles the tests at a "higher" level.
 
 ## Getting Started
 Add this line to the dev_dependencies in the pubspec.yaml file in your project.
