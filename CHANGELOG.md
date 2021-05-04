@@ -1,4 +1,4 @@
-## [0.1.0] - 05/05/2021 (DD/MM/YYYY)
+## [0.1.0] - 05/04/2021 (DD/MM/YYYY)
 
 * First release of the plugin.
 
@@ -7,4 +7,3 @@
 * BREAKING CHANGE: Renamed AwaitFuture (TestActionType) to FutureAwait
 * BREAKING CHANGE: performActions won't return Null type, instead
 * Added Drag and EnterText action types.
-* 
