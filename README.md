@@ -27,6 +27,8 @@ Of course the tester should be assigned inside the testWidgets method.
 TestActions actions = TestActions();
 actions.setTester(tester);
 ```
+If you don't see the table below correctly, open the [github](https://github.com/leopi99/test_actions) page.
+
 Currently there are 5 actions that you can perform using this plugin:
 Action name | Effect | Constants
 ----------- | ------ | ---------
