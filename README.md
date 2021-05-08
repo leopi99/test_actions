@@ -30,7 +30,7 @@ actions.setTester(tester);
 If you don't see the table below correctly, open the [github](https://github.com/leopi99/test_actions) page.
 
 Currently there are 5 actions that you can perform using this plugin:
-Action name | Effect | Constants
+Action name | Effect | Required vars
 ----------- | ------ | ---------
 Pump | Executes the pump command on the WidgetTester for a number of times defined by the {pumpTimes} variable(default to 30). | If you set the awaitDuration it will be used as duration in the pump command.
 PumpAndSettle | Executes the pumpAndSettle command on the WidgetTester.
