@@ -1,6 +1,6 @@
 name: test_actions
 description: A Flutter plugin that helps you in integration tests for your app.
-version: 0.2.0
+version: 0.2.1
 homepage:
 repository: https://github.com/leopi99/test_actions
 publish_to: https://pub.dev
