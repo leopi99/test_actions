@@ -59,29 +59,10 @@ class TestAction {
     this.dragOffset,
   });
 
-  // : assert(
-  //     action == ActionType.EnterText
-  //         ? enterText != null
-  //         : enterText == null &&
-  //                 ActionType.values.contains(action) &&
-  //                 action == ActionType.PumpAndSettle
-  //             ? finder == null
-  //             : finder != null && action == ActionType.TestExpect
-  //                 ? neededValue != null && valueToCheck != null
-  //                 : neededValue == null &&
-  //                         valueToCheck == null &&
-  //                         action == ActionType.FutureAwait
-  //                     ? awaitDuration != null
-  //                     : awaitDuration == null &&
-  //                             action == ActionType.CustomAction
-  //                         ? customAction != null
-  //                         : customAction == null,
-  //   );
-
   ///Performs the action
-  Future<void> performAction(
-      {required Function setAsDone, required int actionIndex}) async {
-    print('Performing ${action.toString().split('.')[1]} action #$actionIndex');
+  Future<void> performAction({Function? setAsDone, int? actionIndex}) async {
+    print(
+        'Performing ${action.toValue} action ${actionIndex != null ? '#$actionIndex' : ''}');
     try {
       switch (action) {
         case TestActionType.Press:
@@ -111,43 +92,43 @@ class TestAction {
           do {
             await Future.delayed(Duration(milliseconds: 100));
           } while (!pumpDone);
-          setAsDone(actionIndex);
-          print('Action ${action.toString().split('.')[1]} #$actionIndex done');
+          if (setAsDone != null) setAsDone(actionIndex);
+          print('Action ${action.toValue} #$actionIndex done');
           return;
         case TestActionType.Drag:
           await tester!.drag(finder!, dragOffset!);
           break;
       }
-      if (executePumpAndSettle && action != TestActionType.EnterText) {
+      if (executePumpAndSettle) {
         print('Executing pumpAndSettle');
         await tester!.pumpAndSettle(Duration(milliseconds: 500));
       } else
         print('* Avoiding the pumpAndSettle');
     } catch (e) {
-      printError(e, actionIndex);
+      printError(e, actionIndex ?? 0);
       return;
     }
-    setAsDone(actionIndex);
-    print('Action ${action.toString().split('.')[1]} #$actionIndex done');
+    if (setAsDone != null) setAsDone(actionIndex);
+    print('Action ${action.toValue} #$actionIndex done');
     return;
   }
 
-  void printError(dynamic e, int actionIndex, {String surplusMessage = ''}) {
+  void printError(dynamic e, int actionIndex, {String? surplusMessage}) {
     String firstMessage =
-        '* Error accoured while performing ${action.toString().split('.')[1]} action #$actionIndex';
+        '* Error occurred while performing ${action.toValue} action #$actionIndex';
     String secondMessage =
         '* ErrorType: ${e.runtimeType}\t Message: ${e.toString()}';
     String divider = '';
-    int higerLength = firstMessage.length > secondMessage.length
+    int higherLength = firstMessage.length > secondMessage.length
         ? firstMessage.length
         : secondMessage.length;
-    for (int i = 0; i < higerLength + 1; i++) {
+    for (int i = 0; i < higherLength + 1; i++) {
       divider += '=';
     }
     print(divider);
     print(firstMessage);
     print(secondMessage);
-    if (surplusMessage != '') print('* $surplusMessage');
+    if (surplusMessage != null) print('* $surplusMessage');
     print(divider);
   }
 

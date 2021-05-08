@@ -4,6 +4,8 @@ void main() {
   runApp(MyApp());
 }
 
+//For the integration test example go to https://github.com/leopi99/test_actions/blob/main/example/integration_test/main_file.dart
+
 class MyApp extends StatelessWidget {
   // This widget is the root of your application.
   @override

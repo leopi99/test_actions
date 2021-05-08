@@ -8,3 +8,7 @@ enum TestActionType {
   Pump,
   Drag,
 }
+
+extension valueOnActionType on TestActionType {
+  String get toValue => this.toString().split('.').last;
+}

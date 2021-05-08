@@ -5,6 +5,10 @@ import 'package:test_actions/test_actions.dart';
 
 import '../lib/main.dart' as app;
 
+//To run this integration test run the following command:
+// flutter driver --driver=test_driver/integration_test.dart --target=integration_test/main_file.dart
+//With this command you can add the --flavor flag
+
 void main() {
   IntegrationTestWidgetsFlutterBinding.ensureInitialized();
   TestActions actions;

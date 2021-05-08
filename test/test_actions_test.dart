@@ -52,6 +52,26 @@ void main() async {
         expect(actions.isActionDone(i), true);
       }
     });
+    test('[Perform a single action without TestActions]', () {
+      TestAction action = TestAction(
+        action: TestActionType.FutureAwait,
+        awaitDuration: Duration(seconds: 2),
+      );
+      action.performAction();
+    });
+    test('[add one action at index 2]', () async {
+      addSampleActions(actions);
+      expect(actions.actions.length, 4);
+      actions.addActionAt(
+          2,
+          TestAction(
+            action: TestActionType.CustomAction,
+            customAction: () {
+              print('The custom action at index 2 is working');
+            },
+          ));
+      expect(actions.actions.length, 5);
+    });
   });
 }
 
