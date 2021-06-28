@@ -41,13 +41,24 @@ class TestActions {
     Timer.periodic(failsAt, (timer) {
       throw Exception('Test not completed after 5 minutes');
     });
-    for (int i = 0; i < _actions.length; i++) {
-      if (!_doneActions[i]) await performActionAt(i);
+    if (_actions.length == 0) {
+      print('No actions to do');
+      return;
     }
-    while (!_doneActions.every((element) => element)) {
-      await Future.delayed(Duration(milliseconds: 500));
-    }
+    await _recursivePerformAction(_actions, 0);
     return;
+  }
+
+  //Performs the actions recursively
+  Future<void> _recursivePerformAction(
+      List<TestAction> actionsList, int currentActionIndex) async {
+    await actionsList.first.performAction(
+        actionIndex: currentActionIndex,
+        setAsDone: (_) => _doneActions[currentActionIndex] = true);
+    actionsList.removeAt(0);
+    //Performs the action if there's any
+    if (actionsList.length > 0)
+      await _recursivePerformAction(actionsList, currentActionIndex + 1);
   }
 
   ///Performs a single action.
