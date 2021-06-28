@@ -52,9 +52,10 @@ class TestActions {
   //Performs the actions recursively
   Future<void> _recursivePerformAction(
       List<TestAction> actionsList, int currentActionIndex) async {
-    await actionsList.first.performAction(
-        actionIndex: currentActionIndex,
-        setAsDone: (_) => _doneActions[currentActionIndex] = true);
+    if (!_doneActions[currentActionIndex])
+      await actionsList.first.performAction(
+          actionIndex: currentActionIndex,
+          setAsDone: (_) => _doneActions[currentActionIndex] = true);
     actionsList.removeAt(0);
     //Performs the action if there's any
     if (actionsList.length > 0)
