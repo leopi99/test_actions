@@ -47,6 +47,9 @@ class TestAction {
   /// Needed when the [TestActionType] == Drag
   final Offset? dragOffset;
 
+  /// The name of this action
+  final String? actionName;
+
   TestAction({
     required this.action,
     this.tester,
@@ -57,12 +60,13 @@ class TestAction {
     this.executePumpAndSettle = true,
     this.pumpTime = 5,
     this.dragOffset,
+    this.actionName,
   });
 
   ///Performs the action
   Future<void> performAction({Function? setAsDone, int? actionIndex}) async {
     print(
-        'Performing ${action.toValue} action ${actionIndex != null ? '#$actionIndex' : ''}');
+        'Performing ${action.toValue} action ${actionIndex != null ? actionName ?? '#$actionIndex' : ''}');
     try {
       switch (action) {
         case TestActionType.Press:
@@ -142,6 +146,7 @@ class TestAction {
     bool? executePumpAndSettle,
     Offset? dragOffset,
     int? pumpTime,
+    String? actionName,
   }) =>
       TestAction(
         action: actionType ?? this.action,
@@ -153,5 +158,6 @@ class TestAction {
         customAction: customAction ?? this.customAction,
         dragOffset: dragOffset ?? this.dragOffset,
         pumpTime: pumpTime ?? this.pumpTime,
+        actionName: actionName ?? this.actionName,
       );
 }

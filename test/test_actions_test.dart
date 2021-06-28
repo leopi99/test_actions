@@ -88,6 +88,7 @@ void addSampleActions(TestActions actions, {bool addOne = false}) {
     actions.addActionsAll([
       TestAction(
         action: TestActionType.FutureAwait,
+        actionName: '***I am waiting for 2 seconds***',
         executePumpAndSettle: false,
         awaitDuration: Duration(seconds: 2),
       ),

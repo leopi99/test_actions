@@ -70,9 +70,6 @@ class TestActions {
     if (!_doneActions[index]) {
       await _actions[index]
           .performAction(setAsDone: _setActionAsDone, actionIndex: index);
-      do {
-        await Future.delayed(Duration(milliseconds: 100));
-      } while (!_doneActions[index]);
     }
   }
 
