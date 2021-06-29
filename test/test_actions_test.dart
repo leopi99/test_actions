@@ -72,6 +72,35 @@ void main() async {
           ));
       expect(actions.actions.length, 5);
     });
+    test('[Check the equality of 2 TestActions] should return false', () {
+      TestAction action = TestAction(
+          action: TestActionType.EnterText, actionName: 'testActionName');
+      TestAction other = TestAction(
+          action: TestActionType.EnterText,
+          awaitDuration: Duration(seconds: 5));
+      expect(action == other, false);
+    });
+    test('[Check the equality of 2 TestActions] should return true', () {
+      TestAction action = TestAction(
+        action: TestActionType.Drag,
+        actionName: 'name',
+        awaitDuration: Duration(seconds: 1),
+        dragOffset: Offset(0, 2),
+        enterText: 'text',
+        executePumpAndSettle: false,
+        pumpTime: 2,
+      );
+      TestAction other = TestAction(
+        action: TestActionType.Drag,
+        actionName: 'name',
+        awaitDuration: Duration(seconds: 1),
+        dragOffset: Offset(0, 2),
+        enterText: 'text',
+        executePumpAndSettle: false,
+        pumpTime: 2,
+      );
+      expect(action == other, true);
+    });
   });
 }
 

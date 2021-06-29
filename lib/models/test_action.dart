@@ -160,4 +160,24 @@ class TestAction {
         pumpTime: pumpTime ?? this.pumpTime,
         actionName: actionName ?? this.actionName,
       );
+
+  @override
+  bool operator ==(Object other) {
+    List<String> differences = [];
+    if (runtimeType != other.runtimeType) differences.add('runTime Type');
+    if (!(other is TestAction)) return false;
+    if (action != other.action) differences.add('ActionType');
+    if (pumpTime != other.pumpTime) differences.add('pumpTime');
+    if (enterText != other.enterText) differences.add('enterText');
+    if (awaitDuration != other.awaitDuration) differences.add('awaitDuration');
+    if (executePumpAndSettle != other.executePumpAndSettle)
+      differences.add('executePumpAndSettle');
+    if (dragOffset != other.dragOffset) differences.add('dragOffset');
+    if (actionName != other.actionName) differences.add('actionName');
+    if (differences.length > 0) print('Differences: $differences');
+    return differences.length == 0;
+  }
+
+  @override
+  int get hashCode => action.toValue.hashCode;
 }
