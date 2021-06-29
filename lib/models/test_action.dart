@@ -108,8 +108,8 @@ class TestAction {
         await tester!.pumpAndSettle(Duration(milliseconds: 500));
       } else
         print('* Avoiding the pumpAndSettle');
-    } catch (e) {
-      printError(e, actionIndex ?? 0);
+    } catch (e, stacktrace) {
+      printError(e, actionIndex ?? 0, surplusMessage: '\n$stacktrace');
       return;
     }
     if (setAsDone != null) setAsDone(actionIndex);
@@ -119,16 +119,10 @@ class TestAction {
 
   void printError(dynamic e, int actionIndex, {String? surplusMessage}) {
     String firstMessage =
-        '* Error occurred while performing ${actionType.toValue} action #$actionIndex';
+        '* Error occurred while performing ${actionType.toValue} action: ${actionName ?? '#' + actionIndex.toString()}';
     String secondMessage =
         '* ErrorType: ${e.runtimeType}\t Message: ${e.toString()}';
-    String divider = '';
-    int higherLength = firstMessage.length > secondMessage.length
-        ? firstMessage.length
-        : secondMessage.length;
-    for (int i = 0; i < higherLength + 1; i++) {
-      divider += '=';
-    }
+    String divider = ''.padLeft(firstMessage.length + 1, "=");
     print(divider);
     print(firstMessage);
     print(secondMessage);
