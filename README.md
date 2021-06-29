@@ -5,7 +5,7 @@ This plugin can be used to facilitate the integration test on a Flutter app, han
 ## Getting Started
 Add this line to the dev_dependencies in the pubspec.yaml file in your project.
 ```
-test_actions: ^0.3.0
+test_actions: ^1.0.0
 ```
 
 ## Usage
@@ -32,13 +32,15 @@ If you don't see the table below correctly, open the [github](https://github.com
 Currently there are 5 actions that you can perform using this plugin:
 Action name | Effect | Required vars
 ----------- | ------ | ---------
-Pump | Executes the pump command on the WidgetTester for a number of times defined by the {pumpTimes} variable(default to 30). | If you set the awaitDuration it will be used as duration in the pump command.
+Pump | Executes the pump command on the WidgetTester for a number of times defined by the {pumpTimes} variable. | If you set the awaitDuration it will be used as duration in the pump command.
 PumpAndSettle | Executes the pumpAndSettle command on the WidgetTester.
 Press | Executes the tap on the WidgetTester using a Finder. | This action needs the finder not to be null
 FutureAwait | Awaits for a certain Duration. | This action needs the awaitDuration not to be null.
 CustomAction | Executes a custom function. | This action needs the customAction function not to be null.
 Drag | Executes a drag action | This action needs the dragOffset not to be null.
 EnterText | Enters a text into a textfield or a widget that accepts text as input | This function needs enterText not to be null.
+
+From version 1.0.0 you can assign a name to the testActions to find more easily the failed action.
 
 You can perform all the actions in order
 ```
@@ -54,11 +56,11 @@ The TestAction doesn't need to be inside the TestActions class, you can create a
 TestAction singleAction = TestAction(
   action: TestActionType.CustomAction, 
   customAction: () {
-    print('This is a custom action);
+    print('This is a custom action');
     expect(1 + 1, 2);
   }
 );
-singleAction.performAction(0, () {});
+singleAction.performAction();
 ```
 
-To perform the single TestAction, it needs two arguments, the index of the action and a function that will be called when the action is completed.
+To perform the single TestAction, you can add the action index and/or the function to be called when the action is performed.

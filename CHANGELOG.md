@@ -1,12 +1,18 @@
-## [0.3.0] - 28/06/2021 (DD/MM/YYYY)
+## [1.0.0]
+* BREAKING CHANGE: TestActionType => ActionType
+* BREAKING CHANGE: TestAction.action => TestAction.actionType
+* Can set a name to the actions.
+* Override of the == operator
+
+## [0.3.0]
 * Executes all the actions recursively.
 
-## [0.2.1] - 08/05/2021 (DD/MM/YYYY)
+## [0.2.1]
 * Corrected typos in some messages.
 * The pumpAndSettle can be done even if the action is EnterText.
 * The parameters (Function setAsDone & int actionIndex) for the single action to perform are now optional.
 
-## [0.2.0] - 13/04/2021 (DD/MM/YYYY)
+## [0.2.0]
 * BREAKING CHANGE: Renamed performAllActions to performActions
 * BREAKING CHANGE: Renamed AwaitFuture (TestActionType) to FutureAwait
 * BREAKING CHANGE: performActions won't return Null type, instead
