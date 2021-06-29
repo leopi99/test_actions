@@ -21,7 +21,9 @@ void main() {
     await tester.pumpWidget(app.MyApp());
     actions.setTester(tester);
     actions.addActionsAll([
-      TestAction(actionType: ActionType.PumpAndSettle, actionName: '-> Wait for the app to start'),
+      TestAction(
+          actionType: ActionType.PumpAndSettle,
+          actionName: '-> Wait for the app to start'),
       TestAction(
         actionType: ActionType.Press,
         finder: find.byType(FloatingActionButton),
