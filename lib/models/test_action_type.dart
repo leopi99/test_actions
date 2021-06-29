@@ -1,5 +1,5 @@
 ///Actions that can be performed on the [WidgetTester]
-enum TestActionType {
+enum ActionType {
   Press,
   EnterText,
   PumpAndSettle,
@@ -9,6 +9,6 @@ enum TestActionType {
   Drag,
 }
 
-extension valueOnActionType on TestActionType {
+extension valueOnActionType on ActionType {
   String get toValue => this.toString().split('.').last;
 }

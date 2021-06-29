@@ -5,31 +5,31 @@ import 'package:test_actions/models/test_action_type.dart';
 ///Class to perform a certain [ActionType] on the [WidgetTester]
 class TestAction {
   ///Type of the action to be performed on the [Finder] widget.
-  final TestActionType action;
+  final ActionType actionType;
 
   ///Only needed if the tester is not set in the [TestActions] class or is executed outside the cited class.
   ///
   ///Fails the test if this condition is not satisfied.
   final WidgetTester? tester;
 
-  ///Needed when [TestActionType] != PumpAndSettle.
+  ///Needed when [ActionType] != PumpAndSettle.
   ///
   ///Fails the test if this condition is not satisfied.
   final Finder? finder;
 
-  ///Needed when [TestActionType] == EnterText.
+  ///Needed when [ActionType] == EnterText.
   ///
   ///Fails the test if this condition is not satisfied.
   final String? enterText;
 
-  ///Needed when [TestActionType] == AwaitFuture
+  ///Needed when [ActionType] == AwaitFuture
   ///
   ///Can be used as the [Duration] of the Pump Action
   ///
   ///Fails the test if this condition is not satisfied.
   final Duration? awaitDuration;
 
-  ///Needed when [TestActionType] == CustomAction
+  ///Needed when [ActionType] == CustomAction
   ///
   ///Fails the test if this condition is not satisfied.
   final Function? customAction;
@@ -44,14 +44,14 @@ class TestAction {
 
   /// The [Offset] used to drag a [Widget] using the [Finder]
   ///
-  /// Needed when the [TestActionType] == Drag
+  /// Needed when the [ActionType] == Drag
   final Offset? dragOffset;
 
   /// The name of this action
   final String? actionName;
 
   TestAction({
-    required this.action,
+    required this.actionType,
     this.tester,
     this.finder,
     this.enterText,
@@ -66,27 +66,27 @@ class TestAction {
   ///Performs the action
   Future<void> performAction({Function? setAsDone, int? actionIndex}) async {
     print(
-        'Performing ${action.toValue} action ${actionIndex != null ? actionName ?? '#$actionIndex' : ''}');
+        'Performing ${actionType.toValue} action ${actionIndex != null ? actionName ?? '#$actionIndex' : ''}');
     try {
-      switch (action) {
-        case TestActionType.Press:
+      switch (actionType) {
+        case ActionType.Press:
           await tester!.tap(finder!);
           break;
-        case TestActionType.EnterText:
+        case ActionType.EnterText:
           await tester!.enterText(finder!, enterText!);
           break;
-        case TestActionType.PumpAndSettle:
+        case ActionType.PumpAndSettle:
           await tester!.pumpAndSettle();
           break;
-        case TestActionType.FutureAwait:
+        case ActionType.FutureAwait:
           print(
               '** Future delayed by ${awaitDuration!.inSeconds}s -> ${awaitDuration!.inMilliseconds}ms');
           await Future.delayed(awaitDuration!);
           break;
-        case TestActionType.CustomAction:
+        case ActionType.CustomAction:
           await customAction!();
           break;
-        case TestActionType.Pump:
+        case ActionType.Pump:
           print('* Pumping for $pumpTime times');
           bool pumpDone = false;
           for (int i = 0; i < pumpTime; i++) {
@@ -97,9 +97,9 @@ class TestAction {
             await Future.delayed(Duration(milliseconds: 100));
           } while (!pumpDone);
           if (setAsDone != null) setAsDone(actionIndex);
-          print('Action ${action.toValue} #$actionIndex done');
+          print('Action ${actionType.toValue} #$actionIndex done');
           return;
-        case TestActionType.Drag:
+        case ActionType.Drag:
           await tester!.drag(finder!, dragOffset!);
           break;
       }
@@ -113,13 +113,13 @@ class TestAction {
       return;
     }
     if (setAsDone != null) setAsDone(actionIndex);
-    print('Action ${action.toValue} #$actionIndex done');
+    print('Action ${actionType.toValue} #$actionIndex done');
     return;
   }
 
   void printError(dynamic e, int actionIndex, {String? surplusMessage}) {
     String firstMessage =
-        '* Error occurred while performing ${action.toValue} action #$actionIndex';
+        '* Error occurred while performing ${actionType.toValue} action #$actionIndex';
     String secondMessage =
         '* ErrorType: ${e.runtimeType}\t Message: ${e.toString()}';
     String divider = '';
@@ -137,7 +137,7 @@ class TestAction {
   }
 
   TestAction copyWith({
-    TestActionType? actionType,
+    ActionType? actionType,
     WidgetTester? tester,
     Finder? finder,
     String? enterText,
@@ -149,7 +149,7 @@ class TestAction {
     String? actionName,
   }) =>
       TestAction(
-        action: actionType ?? this.action,
+        actionType: actionType ?? this.actionType,
         executePumpAndSettle: executePumpAndSettle ?? this.executePumpAndSettle,
         awaitDuration: awaitDuration ?? this.awaitDuration,
         finder: finder ?? this.finder,
@@ -166,7 +166,7 @@ class TestAction {
     List<String> differences = [];
     if (runtimeType != other.runtimeType) differences.add('runTime Type');
     if (!(other is TestAction)) return false;
-    if (action != other.action) differences.add('ActionType');
+    if (actionType != other.actionType) differences.add('ActionType');
     if (pumpTime != other.pumpTime) differences.add('pumpTime');
     if (enterText != other.enterText) differences.add('enterText');
     if (awaitDuration != other.awaitDuration) differences.add('awaitDuration');
@@ -179,5 +179,5 @@ class TestAction {
   }
 
   @override
-  int get hashCode => action.toValue.hashCode;
+  int get hashCode => actionType.toValue.hashCode;
 }
