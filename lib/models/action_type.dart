@@ -1,14 +1,14 @@
 ///Actions that can be performed on the [WidgetTester]
 enum ActionType {
-  Press,
-  EnterText,
-  PumpAndSettle,
-  FutureAwait,
-  CustomAction,
-  Pump,
-  Drag,
+  press,
+  enterText,
+  pumpAndSettle,
+  futureAwait,
+  customAction,
+  pump,
+  drag,
 }
 
-extension valueOnActionType on ActionType {
-  String get toValue => this.toString().split('.').last;
+extension ValueOnActionType on ActionType {
+  String get toValue => toString().split('.').last;
 }

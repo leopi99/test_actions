@@ -22,27 +22,27 @@ void main() {
     actions.setTester(tester);
     actions.addActionsAll([
       TestAction(
-          actionType: ActionType.PumpAndSettle,
+          actionType: ActionType.pumpAndSettle,
           actionName: '-> Wait for the app to start'),
       TestAction(
-        actionType: ActionType.Press,
+        actionType: ActionType.press,
         finder: find.byType(FloatingActionButton),
         actionName: '-> Pressing the FAB',
       ),
       TestAction(
-        actionType: ActionType.CustomAction,
+        actionType: ActionType.customAction,
         actionName: '-> Expecting 1',
         customAction: () {
           expect(find.text('1'), findsOneWidget);
         },
       ),
       TestAction(
-        actionType: ActionType.Press,
+        actionType: ActionType.press,
         actionName: '-> Pressing the FAB',
         finder: find.byType(FloatingActionButton),
       ),
       TestAction(
-        actionType: ActionType.CustomAction,
+        actionType: ActionType.customAction,
         actionName: '-> Expecting 2',
         customAction: () {
           expect(find.text('2'), findsOneWidget);

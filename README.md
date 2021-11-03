@@ -27,18 +27,18 @@ Of course the tester should be assigned inside the testWidgets method.
 TestActions actions = TestActions();
 actions.setTester(tester);
 ```
-If you don't see the table below correctly, open the [github](https://github.com/leopi99/test_actions) page.
+If you don't see the table below correctly, open the [GitHub](https://github.com/leopi99/test_actions) page.
 
 Currently there are 5 actions that you can perform using this plugin:
 Action name | Effect | Required vars
 ----------- | ------ | ---------
-Pump | Executes the pump command on the WidgetTester for a number of times defined by the {pumpTimes} variable. | If you set the awaitDuration it will be used as duration in the pump command.
-PumpAndSettle | Executes the pumpAndSettle command on the WidgetTester.
-Press | Executes the tap on the WidgetTester using a Finder. | This action needs the finder not to be null
-FutureAwait | Awaits for a certain Duration. | This action needs the awaitDuration not to be null.
-CustomAction | Executes a custom function. | This action needs the customAction function not to be null.
-Drag | Executes a drag action | This action needs the dragOffset not to be null.
-EnterText | Enters a text into a textfield or a widget that accepts text as input | This function needs enterText not to be null.
+pump | Executes the pump command on the WidgetTester for a number of times defined by the {pumpTimes} variable. | If you set the awaitDuration it will be used as duration in the pump command.
+pumpAndSettle | Executes the pumpAndSettle command on the WidgetTester.
+press | Executes the tap on the WidgetTester using a Finder. | This action needs the finder not to be null
+futureAwait | Awaits for a certain Duration. | This action needs the awaitDuration not to be null.
+customAction | Executes a custom function. | This action needs the customAction function not to be null.
+drag | Executes a drag action | This action needs the dragOffset not to be null.
+enterText | Enters a text into a textfield or a widget that accepts text as input | This function needs enterText not to be null.
 
 From version 1.0.0 you can assign a name to the testActions to find more easily the failed action.
 

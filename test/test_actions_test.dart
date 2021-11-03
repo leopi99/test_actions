@@ -1,3 +1,4 @@
+import 'package:flutter/foundation.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:test_actions/models/action_type.dart';
 import 'package:test_actions/test_actions.dart';
@@ -30,7 +31,7 @@ void main() async {
     });
 
     test('[adding one action and then reset]', () {
-      actions.addAction(TestAction(actionType: ActionType.FutureAwait));
+      actions.addAction(TestAction(actionType: ActionType.futureAwait));
       expect(actions.actions.length, 1);
       actions.resetActions();
       expect(actions.actions.length, 0);
@@ -54,8 +55,8 @@ void main() async {
     });
     test('[Perform a single action without TestActions]', () {
       TestAction action = TestAction(
-        actionType: ActionType.FutureAwait,
-        awaitDuration: Duration(seconds: 2),
+        actionType: ActionType.futureAwait,
+        awaitDuration: const Duration(seconds: 2),
       );
       action.performAction();
     });
@@ -65,36 +66,36 @@ void main() async {
       actions.addActionAt(
           2,
           TestAction(
-            actionType: ActionType.CustomAction,
+            actionType: ActionType.customAction,
             customAction: () {
-              print('The custom action at index 2 is working');
+              debugPrint('The custom action at index 2 is working');
             },
           ));
       expect(actions.actions.length, 5);
     });
     test('[Check the equality of 2 TestActions] should return false', () {
       TestAction action = TestAction(
-          actionType: ActionType.EnterText, actionName: 'testActionName');
+          actionType: ActionType.enterText, actionName: 'testActionName');
       TestAction other = TestAction(
-          actionType: ActionType.EnterText,
-          awaitDuration: Duration(seconds: 5));
+          actionType: ActionType.enterText,
+          awaitDuration: const Duration(seconds: 5));
       expect(action == other, false);
     });
     test('[Check the equality of 2 TestActions] should return true', () {
       TestAction action = TestAction(
-        actionType: ActionType.Drag,
+        actionType: ActionType.drag,
         actionName: 'name',
-        awaitDuration: Duration(seconds: 1),
-        dragOffset: Offset(0, 2),
+        awaitDuration: const Duration(seconds: 1),
+        dragOffset: const Offset(0, 2),
         enterText: 'text',
         executePumpAndSettle: false,
         pumpTime: 2,
       );
       TestAction other = TestAction(
-        actionType: ActionType.Drag,
+        actionType: ActionType.drag,
         actionName: 'name',
-        awaitDuration: Duration(seconds: 1),
-        dragOffset: Offset(0, 2),
+        awaitDuration: const Duration(seconds: 1),
+        dragOffset: const Offset(0, 2),
         enterText: 'text',
         executePumpAndSettle: false,
         pumpTime: 2,
@@ -105,40 +106,41 @@ void main() async {
 }
 
 void addSampleActions(TestActions actions, {bool addOne = false}) {
-  if (addOne)
+  if (addOne) {
     actions.addAction(TestAction(
-      actionType: ActionType.CustomAction,
+      actionType: ActionType.customAction,
       executePumpAndSettle: false,
       customAction: () {
-        print('This is my test custom action');
+        debugPrint('This is my test custom action');
       },
     ));
-  else
+  } else {
     actions.addActionsAll([
       TestAction(
-        actionType: ActionType.FutureAwait,
+        actionType: ActionType.futureAwait,
         actionName: '***I am waiting for 2 seconds***',
         executePumpAndSettle: false,
-        awaitDuration: Duration(seconds: 2),
+        awaitDuration: const Duration(seconds: 2),
       ),
       TestAction(
-        actionType: ActionType.CustomAction,
+        actionType: ActionType.customAction,
         executePumpAndSettle: false,
         customAction: () {
-          print('This is my test custom action');
+          debugPrint('This is my test custom action');
         },
       ),
       TestAction(
-        actionType: ActionType.CustomAction,
+        actionType: ActionType.customAction,
         executePumpAndSettle: false,
         customAction: () {
-          print('This is my second test for a custom action');
+          debugPrint('This is my second test for a custom action');
         },
       ),
       TestAction(
-        actionType: ActionType.FutureAwait,
+        actionType: ActionType.futureAwait,
         executePumpAndSettle: false,
-        awaitDuration: Duration(seconds: 2),
+        awaitDuration: const Duration(seconds: 2),
       ),
     ]);
+  }
 }

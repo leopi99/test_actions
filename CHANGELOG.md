@@ -1,3 +1,7 @@
+## [2.0.0]
+* BREAKING CHANGE: Renamed all the actions (Ex: Pump -> pump)
+* BREAKING CHANGE: Renamed paramenter awaitFuture -> awaitDuration into TestAction.copyWith
+
 ## [1.0.0]
 * BREAKING CHANGE: TestActionType => ActionType
 * BREAKING CHANGE: TestAction.action => TestAction.actionType
